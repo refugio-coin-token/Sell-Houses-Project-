@@ -1,14 +1,186 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SELLS HOUSE | Propiedades Exclusivas en México</title>
+    
+    <!-- Fuentes de Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Enlace a tu hoja de estilos -->
+    <link rel="stylesheet" href="css/style.css">
 </head>
-
 <body>
-  
-</body>
 
+    <!-- OVERLAY DEL MENÚ -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- HEADER -->
+    <header>
+        <div class="logo">
+            SELLS<span class="serif">HOUSE</span>
+        </div>
+        <button class="menu-btn" id="menuOpen" aria-label="Abrir menú">☰</button>
+    </header>
+
+    <!-- MENÚ LATERAL (MÓVIL) -->
+    <nav class="sidebar" id="sidebar">
+        <button class="close-btn" id="menuClose" aria-label="Cerrar menú">✕</button>
+        <div class="clear-float"></div>
+        <ul class="sidebar-menu">
+            <li><a href="#">Inicio</a></li>
+            <li><a href="#">Propiedades en Venta</a></li>
+            <li><a href="#">Propiedades en Renta</a></li>
+            <li><a href="#">Nosotros</a></li>
+            <li><a href="#">Contacto</a></li>
+            <li><a href="#" class="portal-link">Portal Privado</a></li>
+        </ul>
+    </nav>
+
+    <!-- SECCIÓN HERO -->
+    <section class="hero">
+        <h1>Encuentra tu<br>espacio exclusivo</h1>
+        <p>Propiedades de lujo seleccionadas para un estilo de vida excepcional en México.</p>
+        
+        <!-- BUSCADOR -->
+        <div class="search-box">
+            <div class="search-field">
+                <label>Tipo de Operación</label>
+                <select>
+                    <option>Todas</option>
+                    <option>Venta</option>
+                    <option>Renta</option>
+                </select>
+            </div>
+            <div class="search-field">
+                <label>Ubicación</label>
+                <input type="text" placeholder="Colonia, Ciudad">
+            </div>
+            <div class="search-field">
+                <label>Precio Máximo</label>
+                <input type="text" placeholder="MXN">
+            </div>
+            <button class="btn-search">🔍 Buscar</button>
+        </div>
+    </section>
+
+    <!-- PROPIEDADES -->
+    <section class="properties-section">
+        <h2>Propiedades<br><span>Exclusivas</span></h2>
+        <p class="subtitle serif">Una selección curada de las mejores opciones inmobiliarias disponibles hoy.</p>
+
+        <div class="properties-grid">
+            <!-- Propiedad 1 -->
+            <article class="property-card">
+                <div class="property-img">
+                    <span class="badge">En Venta</span>
+                    <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Venta Departamentos en Portales Oriente">
+                </div>
+                <div class="property-info">
+                    <div class="price">$4,337,000 <span>MXN</span></div>
+                    <h3 class="property-title">Venta Departamentos en Portales Oriente</h3>
+                    <div class="features">
+                        <span>🛏️ 2 Rec.</span>
+                        <span>🚿 2 Baños</span>
+                        <span>📏 72 m²</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Propiedad 2 -->
+            <article class="property-card">
+                <div class="property-img">
+                    <span class="badge">En Venta</span>
+                    <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Venta Departamento en Letrán del Valle">
+                </div>
+                <div class="property-info">
+                    <div class="price">$4,588,980 <span>MXN</span></div>
+                    <h3 class="property-title">Venta Departamento en Letrán del Valle</h3>
+                    <div class="features">
+                        <span>🛏️ 3 Rec.</span>
+                        <span>🚿 1 Baño</span>
+                        <span>📏 104 m²</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Propiedad 3 -->
+            <article class="property-card">
+                <div class="property-img">
+                    <span class="badge">En Venta</span>
+                    <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Del Valle Norte">
+                </div>
+                <div class="property-info">
+                    <div class="price">$8,200,000 <span>MXN</span></div>
+                    <h3 class="property-title">Del Valle Norte</h3>
+                    <div class="features">
+                        <span>🛏️ 3 Rec.</span>
+                        <span>🚿 2 Baños</span>
+                        <span>📏 180 m²</span>
+                    </div>
+                </div>
+            </article>
+            
+            <!-- Propiedad 4 -->
+            <article class="property-card">
+                <div class="property-img">
+                    <span class="badge">En Venta</span>
+                    <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Venta Departamento en Narvarte Oriente">
+                </div>
+                <div class="property-info">
+                    <div class="price">$3,651,600 <span>MXN</span></div>
+                    <h3 class="property-title">Venta Departamento en Narvarte Oriente, Benito Juárez.</h3>
+                    <div class="features">
+                        <span>🛏️ 2 Rec.</span>
+                        <span>🚿 2 Baños</span>
+                        <span>📏 60 m²</span>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-col">
+                <h3 class="serif">SELLS HOUSE</h3>
+                <p>Encuentre propiedades excepcionales en las ubicaciones más exclusivas de México. Su hogar de lujo le espera.</p>
+            </div>
+            
+            <div class="footer-col">
+                <h3 class="serif">Enlaces Rápidos</h3>
+                <ul>
+                    <li><a href="#">Inicio</a></li>
+                    <li><a href="#">Propiedades en Venta</a></li>
+                    <li><a href="#">Propiedades en Renta</a></li>
+                    <li><a href="#">Contáctenos</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h3 class="serif">Contacto</h3>
+                <div class="contact-item">📞 +52 56 4000 1010</div>
+                <div class="contact-item">✉️ contacto@sellhousebr.com</div>
+                <div class="contact-item">📍 Av. Paseo de la Reforma, CDMX</div>
+            </div>
+
+            <div class="footer-col">
+                <h3 class="serif">Horario de Atención</h3>
+                <p>Lunes a Viernes: 9:00 AM - 7:00 PM</p>
+                <p>Sábados: 10:00 AM - 2:00 PM</p>
+                <p>Domingos: Cerrado</p>
+            </div>
+        </div>
+        <div class="copyright">
+            © 2026 SELLS HOUSE. Todos los derechos reservados. | Aviso de Privacidad
+        </div>
+    </footer>
+
+    <!-- Enlace a tu script de JavaScript -->
+    <script src="js/main.js"></script>
+</body>
 </html>
