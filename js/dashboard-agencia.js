@@ -2,56 +2,48 @@ let currentUserId = null;
 
 async function checkAccess() {
     const { data: { session } } = await supabaseClient.auth.getSession();
-    if (!session) {
-        window.location.href = 'login.html';
-        return;
-    }
-    const { data: profile } = await supabaseClient
-        .from('profiles')
-        .select('role')
-        .eq('id', session.user.id)
-        .single();
+    if (!session) { window.location.href = 'login.html'; return; }
 
-    if (profile?.role !== 'agencia') {
-        window.location.href = 'index.html';
-        return;
-    }
+    const { data: profile } = await supabaseClient
+        .from('profiles').select('role').eq('id', session.user.id).single();
+
+    if (profile?.role !== 'agencia') { window.location.href = 'index.html'; return; }
+
     currentUserId = session.user.id;
     loadProperties();
 }
 
+function showMessage(text, isError) {
+    const box = document.getElementById('formMessage');
+    box.textContent = text;
+    box.style.display = 'block';
+    box.style.background = isError ? '#4a1f1f' : '#1f4a2a';
+    box.style.color = isError ? '#ff8a8a' : '#8aff9e';
+}
+
 async function loadProperties() {
     const grid = document.getElementById('propertiesGrid');
-    const { data, error } = await supabaseClient
-        .from('properties')
-        .select('*')
+    const { data: props, error } = await supabaseClient
+        .from('properties').select('*, property_images(url)')
         .eq('agency_id', currentUserId)
         .order('created_at', { ascending: false });
 
-    if (error) {
-        grid.innerHTML = '<p>Error al cargar propiedades.</p>';
-        return;
-    }
-    if (!data.length) {
-        grid.innerHTML = '<p>Aún no tienes propiedades. Agrega la primera arriba.</p>';
-        return;
-    }
+    if (error) { grid.innerHTML = '<p>Error al cargar: ' + error.message + '</p>'; return; }
+    if (!props.length) { grid.innerHTML = '<p>Aún no tienes propiedades.</p>'; return; }
 
-    grid.innerHTML = data.map(p => `
-        <article class="property-card">
-            <div class="property-info">
-                <div class="price">$${Number(p.price).toLocaleString('es-MX')} <span>MXN</span></div>
-                <h3 class="property-title">${p.title}</h3>
-                <div class="features">
-                    <span>🛏️ ${p.bedrooms || 0} Rec.</span>
-                    <span>🚿 ${p.bathrooms || 0} Baños</span>
-                    <span>📏 ${p.area_m2 || 0} m²</span>
-                </div>
-                <p>${p.operation} · ${p.status} · ${p.colonia || ''} ${p.ciudad || ''}</p>
-                <button class="btn-search" onclick="editProperty('${p.id}')">Editar</button>
-                <button class="btn-search" style="background:#c0392b;" onclick="deleteProperty('${p.id}')">Borrar</button>
+    grid.innerHTML = props.map(p => `
+        <div class="card">
+            ${p.property_images?.[0] ? `<img src="${p.property_images[0].url}">` : ''}
+            <strong>$${Number(p.price).toLocaleString('es-MX')} MXN</strong>
+            <h3>${p.title}</h3>
+            <p>${p.operation} · ${p.status} · ${p.bedrooms || 0} rec · ${p.bathrooms || 0} baños · ${p.area_m2 || 0} m²</p>
+            <p>${p.colonia || ''} ${p.ciudad || ''}</p>
+            ${p.property_images?.length ? `<div class="thumbs">${p.property_images.map(img => `<img src="${img.url}">`).join('')}</div>` : ''}
+            <div class="card-actions">
+                <button class="btn secondary" onclick="editProperty('${p.id}')">Editar</button>
+                <button class="btn danger" onclick="deleteProperty('${p.id}')">Borrar</button>
             </div>
-        </article>
+        </div>
     `).join('');
 }
 
@@ -69,18 +61,14 @@ window.editProperty = async function (id) {
     document.getElementById('area_m2').value = p.area_m2 || '';
     document.getElementById('status').value = p.status;
     document.getElementById('submitBtn').textContent = 'Actualizar propiedad';
-    document.getElementById('cancelEdit').style.display = 'inline-block';
+    document.getElementById('cancelEdit').style.display = 'block';
     window.scrollTo(0, 0);
 };
 
 window.deleteProperty = async function (id) {
-    if (!confirm('¿Seguro que quieres borrar esta propiedad?')) return;
+    if (!confirm('¿Borrar esta propiedad?')) return;
     const { error } = await supabaseClient.from('properties').delete().eq('id', id);
-    if (error) {
-        alert('Error al borrar: ' + error.message);
-    } else {
-        loadProperties();
-    }
+    if (error) { alert('Error: ' + error.message); } else { loadProperties(); }
 };
 
 document.getElementById('cancelEdit').addEventListener('click', () => {
@@ -89,6 +77,26 @@ document.getElementById('cancelEdit').addEventListener('click', () => {
     document.getElementById('submitBtn').textContent = 'Guardar propiedad';
     document.getElementById('cancelEdit').style.display = 'none';
 });
+
+async function uploadPhotos(propertyId, files) {
+    for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const path = `${propertyId}/${Date.now()}-${file.name}`;
+        const { error: uploadError } = await supabaseClient
+            .storage.from('property-images').upload(path, file);
+
+        if (uploadError) { console.error(uploadError); continue; }
+
+        const { data: urlData } = supabaseClient
+            .storage.from('property-images').getPublicUrl(path);
+
+        await supabaseClient.from('property_images').insert({
+            property_id: propertyId,
+            url: urlData.publicUrl,
+            position: i
+        });
+    }
+}
 
 document.getElementById('propertyForm').addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -105,27 +113,33 @@ document.getElementById('propertyForm').addEventListener('submit', async (e) => 
         status: document.getElementById('status').value
     };
 
-    const messageBox = document.getElementById('formMessage');
+    let propertyId = id;
     let result;
+
     if (id) {
         result = await supabaseClient.from('properties').update(payload).eq('id', id);
     } else {
         payload.agency_id = currentUserId;
-        result = await supabaseClient.from('properties').insert(payload);
+        result = await supabaseClient.from('properties').insert(payload).select().single();
+        if (result.data) propertyId = result.data.id;
     }
 
     if (result.error) {
-        messageBox.textContent = 'Error: ' + result.error.message;
-        messageBox.style.color = '#c0392b';
-    } else {
-        messageBox.textContent = 'Guardado correctamente.';
-        messageBox.style.color = '#27ae60';
-        document.getElementById('propertyForm').reset();
-        document.getElementById('propertyId').value = '';
-        document.getElementById('submitBtn').textContent = 'Guardar propiedad';
-        document.getElementById('cancelEdit').style.display = 'none';
-        loadProperties();
+        showMessage('Error: ' + result.error.message, true);
+        return;
     }
+
+    const photoInput = document.getElementById('photos');
+    if (photoInput.files.length > 0 && propertyId) {
+        await uploadPhotos(propertyId, photoInput.files);
+    }
+
+    showMessage('Guardado correctamente.', false);
+    document.getElementById('propertyForm').reset();
+    document.getElementById('propertyId').value = '';
+    document.getElementById('submitBtn').textContent = 'Guardar propiedad';
+    document.getElementById('cancelEdit').style.display = 'none';
+    loadProperties();
 });
 
 checkAccess();
