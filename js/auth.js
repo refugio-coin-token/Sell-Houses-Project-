@@ -29,24 +29,20 @@ form.addEventListener('submit', async (e) => {
 
     if (isSignup) {
         const fullName = document.getElementById('fullName').value.trim();
-        const { data, error } = await supabaseClient.auth.signUp({
+        const { error } = await supabaseClient.auth.signUp({
             email, password,
             options: { data: { full_name: fullName } }
         });
 
         if (error) {
             showMessage(error.message, true);
-        } else if (data.user) {
-            // crea el perfil con rol 'cliente' por defecto
-            await supabaseClient.from('profiles').insert({
-                id: data.user.id,
-                full_name: fullName,
-                role: 'cliente'
-            });
+        } else {
+            // El perfil en "profiles" ahora lo crea automáticamente
+            // el trigger on_auth_user_created en Supabase.
             showMessage('Cuenta creada. Revisa tu correo si se pide confirmación.', false);
         }
     } else {
-        const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+        const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
 
         if (error) {
             showMessage('Correo o contraseña incorrectos.', true);
