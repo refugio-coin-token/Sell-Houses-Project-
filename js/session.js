@@ -5,12 +5,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     const { data: { session } } = await supabaseClient.auth.getSession();
 
     if (session) {
-        const { data: profile } = await supabaseClient
-            .from('profiles')
-            .select('role, full_name')
-            .eq('id', session.user.id)
-            .single();
+        const { data: profile, error: profileError } = await supabaseClient
+    .from('profiles')
+    .select('role, full_name')
+    .eq('id', session.user.id)
+    .single();
 
+alert('DEBUG → profile: ' + JSON.stringify(profile) + ' | error: ' + JSON.stringify(profileError));
         const dashboardUrl = profile?.role === 'agencia'
             ? 'dashboard-agencia.html'
             : 'dashboard-usuario.html';
