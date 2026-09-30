@@ -5,13 +5,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     const { data: { session } } = await supabaseClient.auth.getSession();
 
     if (session) {
-        const { data: profile, error: profileError } = await supabaseClient
-    .from('profiles')
-    .select('role, full_name')
-    .eq('id', session.user.id)
-    .single();
+        const { data: profile } = await supabaseClient
+            .from('profiles')
+            .select('role, full_name')
+            .eq('id', session.user.id)
+            .single();
 
-alert('DEBUG → profile: ' + JSON.stringify(profile) + ' | error: ' + JSON.stringify(profileError));
         const dashboardUrl = profile?.role === 'agencia'
             ? 'dashboard-agencia.html'
             : 'dashboard-usuario.html';
@@ -21,7 +20,6 @@ alert('DEBUG → profile: ' + JSON.stringify(profile) + ' | error: ' + JSON.stri
             : 'Mi cuenta';
         portalLink.href = dashboardUrl;
 
-        // Añadir enlace de cerrar sesión justo después
         const logoutLi = document.createElement('li');
         const logoutLink = document.createElement('a');
         logoutLink.href = '#';
