@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Agencia | SELLS HOUSE</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <header>
+        <div class="logo">SELLS<span class="serif">HOUSE</span></div>
+        <a href="index.html" style="color:inherit;">← Volver al inicio</a>
+    </header>
+
+    <section class="properties-section">
+        <h2>Panel de <span>Agencia</span></h2>
+        <p class="subtitle serif">Administra tus propiedades publicadas.</p>
+
+        <!-- Formulario para crear / editar -->
+        <form id="propertyForm" class="search-box" style="flex-direction:column; align-items:stretch; gap:1rem;">
+            <input type="hidden" id="propertyId">
+
+            <div class="search-field">
+                <label>Título</label>
+                <input type="text" id="title" required>
+            </div>
+
+            <div class="search-field">
+                <label>Operación</label>
+                <select id="operation" required>
+                    <option value="venta">Venta</option>
+                    <option value="renta">Renta</option>
+                </select>
+            </div>
+
+            <div class="search-field">
+                <label>Precio (MXN)</label>
+                <input type="number" id="price" required>
+            </div>
+
+            <div class="search-field">
+                <label>Colonia</label>
+                <input type="text" id="colonia">
+            </div>
+
+            <div class="search-field">
+                <label>Ciudad</label>
+                <input type="text" id="ciudad">
+            </div>
+
+            <div class="search-field">
+                <label>Recámaras</label>
+                <input type="number" id="bedrooms">
+            </div>
+
+            <div class="search-field">
+                <label>Baños</label>
+                <input type="number" id="bathrooms">
+            </div>
+
+            <div class="search-field">
+                <label>m²</label>
+                <input type="number" id="area_m2">
+            </div>
+
+            <div class="search-field">
+                <label>Estado</label>
+                <select id="status">
+                    <option value="disponible">Disponible</option>
+                    <option value="reservada">Reservada</option>
+                    <option value="vendida">Vendida</option>
+                    <option value="rentada">Rentada</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn-search" id="submitBtn">Guardar propiedad</button>
+            <button type="button" class="btn-search" id="cancelEdit" style="display:none; background:#999;">Cancelar edición</button>
+        </form>
+
+        <div id="formMessage" style="margin:1rem 0;"></div>
+
+        <h2 style="margin-top:3rem;">Mis <span>Propiedades</span></h2>
+        <div class="properties-grid" id="propertiesGrid">
+            <p>Cargando...</p>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/config.js"></script>
+    <script src="js/dashboard-agencia.js"></script>
+</body>
+</html>
