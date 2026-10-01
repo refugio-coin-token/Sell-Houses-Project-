@@ -49,7 +49,7 @@ async function loadProperty() {
         <p>${p.operation === 'venta' ? 'En venta' : 'En renta'} · Estado: ${p.status}</p>
 
         <div class="section">
-            <a class="btn btn-whatsapp" target="_blank" href="https://wa.me/5256400 1010?text=${whatsappMessage}">💬 Contactar por WhatsApp</a>
+            <a class="btn btn-whatsapp" target="_blank" href="https://wa.me/34604824126?text=${whatsappMessage}">💬 Contactar por WhatsApp</a>
         </div>
 
         <div class="section">
