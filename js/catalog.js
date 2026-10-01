@@ -29,7 +29,7 @@ async function loadCatalog(filters = {}) {
         const images = (p.property_images || []).sort((a, b) => a.position - b.position);
         const mainImage = images[0]?.url || 'https://placehold.co/600x400?text=Sin+foto';
         return `
-        <article class="property-card">
+        <article class="property-card" onclick="window.location.href='propiedad.html?id=${p.id}'" style="cursor:pointer;">
             <div class="property-img">
                 <span class="badge">${p.operation === 'venta' ? 'En Venta' : 'En Renta'}</span>
                 <img src="${mainImage}" alt="${p.title}">
