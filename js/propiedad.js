@@ -40,6 +40,7 @@ async function loadProperty() {
 
         <h1>${p.title}</h1>
         <div class="price">$${Number(p.price).toLocaleString('es-MX')} MXN</div>
+        <button id="favBtn" class="btn" style="background:#333;color:#fff;width:auto;margin:0.5rem 0;">🤍 Guardar en favoritos</button>
         <div class="meta">
             <span>🛏️ ${p.bedrooms || 0} Rec.</span>
             <span>🚿 ${p.bathrooms || 0} Baños</span>
@@ -101,6 +102,39 @@ async function loadProperty() {
             document.getElementById('inquiryForm').reset();
         }
     });
+    const favBtn = document.getElementById('favBtn');
+favBtn.addEventListener('click', async () => {
+    const { data: { session } } = await supabaseClient.auth.getSession();
+    if (!session) {
+        alert('Inicia sesión para guardar favoritos.');
+        window.location.href = 'login.html';
+        return;
+    }
+
+    const { data: existing } = await supabaseClient
+        .from('favorites').select('*')
+        .eq('user_id', session.user.id).eq('property_id', p.id).maybeSingle();
+
+    if (existing) {
+        await supabaseClient.from('favorites').delete()
+            .eq('user_id', session.user.id).eq('property_id', p.id);
+        favBtn.textContent = '🤍 Guardar en favoritos';
+    } else {
+        await supabaseClient.from('favorites').insert({
+            user_id: session.user.id, property_id: p.id
+        });
+        favBtn.textContent = '❤️ En tus favoritos';
+    }
+});
+
+// Marcar el botón si ya es favorito
+const { data: { session: s } } = await supabaseClient.auth.getSession();
+if (s) {
+    const { data: fav } = await supabaseClient
+        .from('favorites').select('*')
+        .eq('user_id', s.user.id).eq('property_id', p.id).maybeSingle();
+    if (fav) favBtn.textContent = '❤️ En tus favoritos';
+}
 }
 
 loadProperty();
