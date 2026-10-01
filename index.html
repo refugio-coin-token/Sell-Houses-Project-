@@ -49,21 +49,21 @@
         <div class="search-box">
     <div class="search-field">
         <label>Tipo de Operación</label>
-        <select>
-            <option>Todas</option>
-            <option>Venta</option>
-            <option>Renta</option>
+        <select id="filterOperation">
+            <option value="">Todas</option>
+            <option value="venta">Venta</option>
+            <option value="renta">Renta</option>
         </select>
     </div>
     <div class="search-field">
         <label>Ubicación</label>
-        <input type="text" placeholder="Colonia, Ciudad">
+        <input type="text" id="filterLocation" placeholder="Colonia, Ciudad">
     </div>
     <div class="search-field">
         <label>Precio Máximo</label>
-        <input type="text" placeholder="MXN">
+        <input type="number" id="filterMaxPrice" placeholder="MXN">
     </div>
-    <button class="btn-search">🔍 Buscar</button>
+    <button class="btn-search" id="btnSearch" type="button">🔍 Buscar</button>
 </div>
     </section>
 
