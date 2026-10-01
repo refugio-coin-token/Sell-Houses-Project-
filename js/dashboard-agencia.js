@@ -10,7 +10,8 @@ async function checkAccess() {
     if (profile?.role !== 'agencia') { window.location.href = 'index.html'; return; }
 
     currentUserId = session.user.id;
-    loadProperties();
+loadProperties();
+loadInquiries();
 }
 
 function showMessage(text, isError) {
@@ -43,6 +44,34 @@ async function loadProperties() {
                 <button class="btn secondary" onclick="editProperty('${p.id}')">Editar</button>
                 <button class="btn danger" onclick="deleteProperty('${p.id}')">Borrar</button>
             </div>
+        </div>
+    `).join('');
+}
+async function loadInquiries() {
+    const list = document.getElementById('inquiriesList');
+    if (!list) return;
+
+    const { data, error } = await supabaseClient
+        .from('inquiries')
+        .select('*, properties!inner(title, agency_id)')
+        .eq('properties.agency_id', currentUserId)
+        .order('created_at', { ascending: false });
+
+    if (error) {
+        list.innerHTML = '<p>Error al cargar consultas: ' + error.message + '</p>';
+        return;
+    }
+    if (!data.length) {
+        list.innerHTML = '<p>Aún no has recibido consultas.</p>';
+        return;
+    }
+
+    list.innerHTML = data.map(i => `
+        <div class="card">
+            <strong>${i.properties.title}</strong>
+            <p>${new Date(i.created_at).toLocaleString('es-MX')}</p>
+            <p>👤 ${i.name} · ✉️ ${i.email} ${i.phone ? '· 📞 ' + i.phone : ''}</p>
+            <p>${i.message || ''}</p>
         </div>
     `).join('');
 }
