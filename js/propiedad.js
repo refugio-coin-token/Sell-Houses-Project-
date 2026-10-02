@@ -48,7 +48,7 @@ async function loadProperty() {
             <span>📍 ${p.colonia || ''} ${p.ciudad || ''}</span>
         </div>
         <p>${p.operation === 'venta' ? 'En venta' : 'En renta'} · Estado: ${p.status}</p>
-
+       ${p.latitude && p.longitude ? '<div id="map"></div>' : ''}
         <div class="section">
             <a class="btn btn-whatsapp" target="_blank" href="https://wa.me/34604824126?text=${whatsappMessage}">💬 Contactar por WhatsApp</a>
         </div>
@@ -134,6 +134,13 @@ if (s) {
         .from('favorites').select('*')
         .eq('user_id', s.user.id).eq('property_id', p.id).maybeSingle();
     if (fav) favBtn.textContent = '❤️ En tus favoritos';
+}
+    if (p.latitude && p.longitude) {
+    const map = L.map('map').setView([p.latitude, p.longitude], 15);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap'
+    }).addTo(map);
+    L.marker([p.latitude, p.longitude]).addTo(map);
 }
 }
 
