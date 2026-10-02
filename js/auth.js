@@ -53,3 +53,19 @@ form.addEventListener('submit', async (e) => {
     }
     submitBtn.disabled = false;
 });
+
+document.getElementById('forgotPasswordLink').addEventListener('click', async (e) => {
+    e.preventDefault();
+    const email = prompt('Escribe tu correo electrónico para recibir el enlace de recuperación:');
+    if (!email) return;
+
+    const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
+        redirectTo: 'https://refugio-coin-token.github.io/Sell-Houses-Project-/reset-password.html'
+    });
+
+    if (error) {
+        alert('Error: ' + error.message);
+    } else {
+        alert('Si el correo existe, te enviamos un enlace para restablecer tu contraseña. Revisa tu bandeja (y spam).');
+    }
+});
