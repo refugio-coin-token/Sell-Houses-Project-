@@ -88,6 +88,8 @@ window.editProperty = async function (id) {
     document.getElementById('bedrooms').value = p.bedrooms || '';
     document.getElementById('bathrooms').value = p.bathrooms || '';
     document.getElementById('area_m2').value = p.area_m2 || '';
+    document.getElementById('latitude').value = p.latitude || '';
+    document.getElementById('longitude').value = p.longitude || '';
     document.getElementById('status').value = p.status;
     document.getElementById('submitBtn').textContent = 'Actualizar propiedad';
     document.getElementById('cancelEdit').style.display = 'block';
@@ -139,7 +141,9 @@ document.getElementById('propertyForm').addEventListener('submit', async (e) => 
         bedrooms: Number(document.getElementById('bedrooms').value) || null,
         bathrooms: Number(document.getElementById('bathrooms').value) || null,
         area_m2: Number(document.getElementById('area_m2').value) || null,
-        status: document.getElementById('status').value
+        status: document.getElementById('status').value,
+        latitude: document.getElementById('latitude').value ? Number(document.getElementById('latitude').value) : null,
+        longitude: document.getElementById('longitude').value ? Number(document.getElementById('longitude').value) : null
     };
 
     let propertyId = id;
