@@ -48,8 +48,16 @@ async function loadCatalog(filters = {}) {
     }).join('');
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    loadCatalog();
+    document.addEventListener('DOMContentLoaded', () => {
+    const params = new URLSearchParams(window.location.search);
+    const operationFromUrl = params.get('operacion');
+
+    if (operationFromUrl) {
+        document.getElementById('filterOperation').value = operationFromUrl;
+        loadCatalog({ operation: operationFromUrl });
+    } else {
+        loadCatalog();
+    }
 
     const btn = document.getElementById('btnSearch');
     if (btn) {
