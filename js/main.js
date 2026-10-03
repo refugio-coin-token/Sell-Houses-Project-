@@ -13,5 +13,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if(menuOpen) menuOpen.addEventListener('click', toggleMenu);
     if(menuClose) menuClose.addEventListener('click', toggleMenu);
     if(overlay) overlay.addEventListener('click', toggleMenu);
-
+    const sidebarLinks = sidebar.querySelectorAll('a');
+sidebarLinks.forEach(link => {
+    link.addEventListener('click', () => {
+        sidebar.classList.remove('active');
+        overlay.classList.remove('active');
+    });
+});
 });
