@@ -161,6 +161,30 @@ if (s) {
     }).addTo(map);
     L.marker([p.latitude, p.longitude]).addTo(map);
 }
+    document.getElementById('calcBtn').addEventListener('click', () => {
+    const price = Number(p.price);
+    const downPct = Number(document.getElementById('downPct').value);
+    const annualRate = Number(document.getElementById('rate').value);
+    const years = Number(document.getElementById('years').value);
+
+    const downPayment = price * (downPct / 100);
+    const loanAmount = price - downPayment;
+    const monthlyRate = (annualRate / 100) / 12;
+    const months = years * 12;
+
+    const monthlyPayment = monthlyRate === 0
+        ? loanAmount / months
+        : loanAmount * (monthlyRate * Math.pow(1 + monthlyRate, months)) / (Math.pow(1 + monthlyRate, months) - 1);
+
+    const resultBox = document.getElementById('mortgageResult');
+    resultBox.style.display = 'block';
+    resultBox.innerHTML = `
+        <p>Enganche: $${downPayment.toLocaleString('es-MX', {maximumFractionDigits:0})} MXN</p>
+        <p>Monto a financiar: $${loanAmount.toLocaleString('es-MX', {maximumFractionDigits:0})} MXN</p>
+        <p>Pago mensual estimado: <strong>$${monthlyPayment.toLocaleString('es-MX', {maximumFractionDigits:0})} MXN</strong></p>
+        <p style="font-size:0.8rem;color:#999;">Estimación informativa, no es una oferta de crédito.</p>
+    `;
+});
 }
 
 loadProperty();
