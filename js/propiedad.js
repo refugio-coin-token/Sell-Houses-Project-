@@ -52,6 +52,25 @@ async function loadProperty() {
         <div class="section">
             <a class="btn btn-whatsapp" target="_blank" href="https://wa.me/34604824126?text=${whatsappMessage}">💬 Contactar por WhatsApp</a>
         </div>
+        <div class="section">
+    <h2>Calculadora de Hipoteca</h2>
+    <div class="field-inline">
+        <div class="field">
+            <label>Enganche (%)</label>
+            <input type="number" id="downPct" value="20" min="0" max="100">
+        </div>
+        <div class="field">
+            <label>Tasa anual (%)</label>
+            <input type="number" id="rate" value="11" step="0.1">
+        </div>
+        <div class="field">
+            <label>Plazo (años)</label>
+            <input type="number" id="years" value="20">
+        </div>
+    </div>
+    <button type="button" class="btn btn-submit" id="calcBtn">Calcular</button>
+    <div id="mortgageResult" style="display:none;"></div>
+</div>
 
         <div class="section">
             <h2>Enviar una consulta</h2>
