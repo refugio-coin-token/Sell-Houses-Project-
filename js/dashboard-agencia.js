@@ -111,10 +111,12 @@ window.editProperty = async function (id) {
     document.getElementById('bathrooms').value = p.bathrooms || '';
     document.getElementById('area_m2').value = p.area_m2 || '';
     document.getElementById('description').value = p.description || '';
+    document.getElementById('latitude').value = p.latitude || '';
+    document.getElementById('longitude').value = p.longitude || '';
     document.getElementById('status').value = p.status;
     document.getElementById('submitBtn').textContent = 'Actualizar propiedad';
     document.getElementById('cancelEdit').style.display = 'block';
-    window.scrollTo(0, 0); me 
+    window.scrollTo(0, 0);
 };
 
 window.deleteProperty = async function (id) {
@@ -163,9 +165,10 @@ document.getElementById('propertyForm').addEventListener('submit', async (e) => 
     bathrooms: Number(document.getElementById('bathrooms').value) || null,
     area_m2: Number(document.getElementById('area_m2').value) || null,
     description: document.getElementById('description').value,
+    latitude: document.getElementById('latitude').value ? Number(document.getElementById('latitude').value) : null,
+    longitude: document.getElementById('longitude').value ? Number(document.getElementById('longitude').value) : null,
     status: document.getElementById('status').value
 };
-
     let propertyId = id;
     let result;
 
