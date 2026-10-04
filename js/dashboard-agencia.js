@@ -10,8 +10,9 @@ async function checkAccess() {
     if (profile?.role !== 'agencia') { window.location.href = 'index.html'; return; }
 
     currentUserId = session.user.id;
-loadProperties();
-loadInquiries();
+    loadStats();
+    loadProperties();
+    loadInquiries();
 }
 
 function showMessage(text, isError) {
@@ -20,6 +21,27 @@ function showMessage(text, isError) {
     box.style.display = 'block';
     box.style.background = isError ? '#4a1f1f' : '#1f4a2a';
     box.style.color = isError ? '#ff8a8a' : '#8aff9e';
+}
+
+async function loadStats() {
+    const { data, error } = await supabaseClient
+        .from('properties').select('price, status')
+        .eq('agency_id', currentUserId);
+
+    const box = document.getElementById('statsGrid');
+    if (error || !data) { box.innerHTML = ''; return; }
+
+    const total = data.length;
+    const disponibles = data.filter(p => p.status === 'disponible').length;
+    const sumaValor = data.reduce((acc, p) => acc + Number(p.price), 0);
+    const vendidasRentadas = data.filter(p => p.status === 'vendida' || p.status === 'rentada').length;
+
+    box.innerHTML = `
+        <div class="stat-box"><div class="num">${total}</div><div class="lbl">Total propiedades</div></div>
+        <div class="stat-box"><div class="num">${disponibles}</div><div class="lbl">Disponibles</div></div>
+        <div class="stat-box"><div class="num">$${sumaValor.toLocaleString('es-MX', {maximumFractionDigits:0})}</div><div class="lbl">Valor en catálogo (MXN)</div></div>
+        <div class="stat-box"><div class="num">${vendidasRentadas}</div><div class="lbl">Vendidas/Rentadas</div></div>
+    `;
 }
 
 async function loadProperties() {
