@@ -110,12 +110,11 @@ window.editProperty = async function (id) {
     document.getElementById('bedrooms').value = p.bedrooms || '';
     document.getElementById('bathrooms').value = p.bathrooms || '';
     document.getElementById('area_m2').value = p.area_m2 || '';
-    document.getElementById('latitude').value = p.latitude || '';
-    document.getElementById('longitude').value = p.longitude || '';
+    document.getElementById('description').value = p.description || '';
     document.getElementById('status').value = p.status;
     document.getElementById('submitBtn').textContent = 'Actualizar propiedad';
     document.getElementById('cancelEdit').style.display = 'block';
-    window.scrollTo(0, 0);
+    window.scrollTo(0, 0); me 
 };
 
 window.deleteProperty = async function (id) {
@@ -155,18 +154,17 @@ document.getElementById('propertyForm').addEventListener('submit', async (e) => 
     e.preventDefault();
     const id = document.getElementById('propertyId').value;
     const payload = {
-        title: document.getElementById('title').value,
-        operation: document.getElementById('operation').value,
-        price: Number(document.getElementById('price').value),
-        colonia: document.getElementById('colonia').value,
-        ciudad: document.getElementById('ciudad').value,
-        bedrooms: Number(document.getElementById('bedrooms').value) || null,
-        bathrooms: Number(document.getElementById('bathrooms').value) || null,
-        area_m2: Number(document.getElementById('area_m2').value) || null,
-        status: document.getElementById('status').value,
-        latitude: document.getElementById('latitude').value ? Number(document.getElementById('latitude').value) : null,
-        longitude: document.getElementById('longitude').value ? Number(document.getElementById('longitude').value) : null
-    };
+    title: document.getElementById('title').value,
+    operation: document.getElementById('operation').value,
+    price: Number(document.getElementById('price').value),
+    colonia: document.getElementById('colonia').value,
+    ciudad: document.getElementById('ciudad').value,
+    bedrooms: Number(document.getElementById('bedrooms').value) || null,
+    bathrooms: Number(document.getElementById('bathrooms').value) || null,
+    area_m2: Number(document.getElementById('area_m2').value) || null,
+    description: document.getElementById('description').value,
+    status: document.getElementById('status').value
+};
 
     let propertyId = id;
     let result;
