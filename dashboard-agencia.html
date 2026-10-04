@@ -8,7 +8,8 @@
     <style>
         * { box-sizing: border-box; }
         body { margin:0; font-family:'Inter',sans-serif; background:#181410; color:#eee; }
-        .topbar { padding:1rem 1.5rem; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #333; }
+        .topbar { padding:1rem 1.5rem; display:flex; flex-wrap:wrap; gap:0.8rem; justify-content:space-between; align-items:center; border-bottom:1px solid #333; }
+        .topbar .links { display:flex; gap:1rem; flex-wrap:wrap; font-size:0.9rem; }
         .topbar a { color:#d4af37; text-decoration:none; }
         .logo { font-family:'Playfair Display',serif; font-weight:700; font-size:1.3rem; }
         .logo span { color:#d4af37; }
@@ -30,21 +31,25 @@
         .card-actions .btn { width:auto; flex:1; padding:0.5rem; font-size:0.9rem; }
         .thumbs { display:flex; gap:0.5rem; flex-wrap:wrap; margin-top:0.5rem; }
         .thumbs img { width:60px; height:60px; object-fit:cover; border-radius:4px; }
+        .stats-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:0.8rem; margin:1.5rem 0 2rem; }
+        .stat-box { background:#222; border:1px solid #333; border-radius:8px; padding:1rem; text-align:center; }
+        .stat-box .num { font-family:'Playfair Display',serif; font-size:1.8rem; color:#d4af37; }
+        .stat-box .lbl { color:#aaa; font-size:0.8rem; margin-top:0.2rem; }
     </style>
 </head>
 <body>
 
     <div class="topbar">
     <div class="logo">SELLS<span>HOUSE</span></div>
-    <div>
-        <a href="dashboard-usuario.html" style="margin-right:1rem;">❤️ Mis favoritos</a>
-        <a href="index.html">← Volver al inicio</a>
+    <div class="links">
+        <a href="dashboard-usuario.html">❤️ Favoritos</a>
+        <a href="index.html">← Inicio</a>
     </div>
 </div>
 
     <main>
         <h2>Panel de Agencia</h2>
-
+      <div class="stats-grid" id="statsGrid"></div>
         <form id="propertyForm">
             <input type="hidden" id="propertyId">
 
