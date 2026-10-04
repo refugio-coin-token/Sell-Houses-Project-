@@ -48,6 +48,7 @@ async function loadProperty() {
             <span>📍 ${p.colonia || ''} ${p.ciudad || ''}</span>
         </div>
         <p>${p.operation === 'venta' ? 'En venta' : 'En renta'} · Estado: ${p.status}</p>
+       ${p.description ? `<p style="margin-top:1rem;line-height:1.6;">${p.description}</p>` : ''}
        ${p.latitude && p.longitude ? '<div id="map"></div>' : ''}
         <div class="section">
             <a class="btn btn-whatsapp" target="_blank" href="https://wa.me/34604824126?text=${whatsappMessage}">💬 Contactar por WhatsApp</a>
