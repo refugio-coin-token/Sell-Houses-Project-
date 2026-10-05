@@ -4,7 +4,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const menuClose = document.getElementById('menuClose');
     const sidebar = document.getElementById('sidebar');
     const overlay = document.getElementById('overlay');
-
+    const siteHeader = document.getElementById('siteHeader');
+if (siteHeader) {
+    window.addEventListener('scroll', () => {
+        siteHeader.classList.toggle('scrolled', window.scrollY > 40);
+    });
+}
     function toggleMenu() {
         sidebar.classList.toggle('active');
         overlay.classList.toggle('active');
