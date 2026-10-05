@@ -45,31 +45,40 @@
     </nav>
 
     <!-- SECCIÓN HERO -->
-    <section class="hero">
-        <h1>Encuentra tu<br>espacio exclusivo</h1>
-        <p>Propiedades de lujo seleccionadas para un estilo de vida excepcional en México.</p>
-        
-        <!-- BUSCADOR -->
-        <div class="search-box">
-    <div class="search-field">
-        <label>Tipo de Operación</label>
-        <select id="filterOperation">
-            <option value="">Todas</option>
-            <option value="venta">Venta</option>
-            <option value="renta">Renta</option>
-        </select>
+    <section class="hero" id="heroSection">
+    <div class="hero-slide active" style="background-image:url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80')"></div>
+    <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80')"></div>
+    <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80')"></div>
+    <div class="hero-overlay"></div>
+
+    <h1>Encuentra tu<br>espacio exclusivo</h1>
+    <p>Propiedades seleccionadas para un estilo de vida excepcional en México.</p>
+    <div class="hero-dots" id="heroDots">
+        <span class="active" data-i="0"></span>
+        <span data-i="1"></span>
+        <span data-i="2"></span>
     </div>
-    <div class="search-field">
-        <label>Ubicación</label>
-        <input type="text" id="filterLocation" placeholder="Colonia, Ciudad">
+
+    <div class="search-box">
+        <div class="search-field">
+            <label>Tipo de Operación</label>
+            <select id="filterOperation">
+                <option value="">Todas</option>
+                <option value="venta">Venta</option>
+                <option value="renta">Renta</option>
+            </select>
+        </div>
+        <div class="search-field">
+            <label>Ubicación</label>
+            <input type="text" id="filterLocation" placeholder="Colonia, Ciudad">
+        </div>
+        <div class="search-field">
+            <label>Precio Máximo</label>
+            <input type="number" id="filterMaxPrice" placeholder="MXN">
+        </div>
+        <button class="btn-search" id="btnSearch" type="button">🔍 Buscar</button>
     </div>
-    <div class="search-field">
-        <label>Precio Máximo</label>
-        <input type="number" id="filterMaxPrice" placeholder="MXN">
-    </div>
-    <button class="btn-search" id="btnSearch" type="button">🔍 Buscar</button>
-</div>
-    </section>
+</section>
 <div class="stats-bar">
     <div><div class="stat-number">+50</div><div class="stat-label">Propiedades</div></div>
     <div><div class="stat-number">+12</div><div class="stat-label">Colonias</div></div>
