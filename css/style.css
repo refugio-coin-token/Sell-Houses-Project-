@@ -27,11 +27,16 @@ ul { list-style:none; }
 
 /* --- HEADER --- */
 header {
-    position: absolute; top:0; width:100%; padding:24px 20px;
-    display:flex; justify-content:space-between; align-items:center; z-index:100;
+    position: fixed; top:0; width:100%; padding:16px 20px;
+    display:flex; justify-content:space-between; align-items:center; z-index:200;
+    background: rgba(28,26,24,0); transition: background 0.3s ease, padding 0.3s ease;
 }
-.logo { color: var(--gold-accent); font-size:1.5rem; font-weight:700; letter-spacing:0.3px; display:flex; align-items:center; gap:5px; }
-.logo span { color: var(--text-light); }
+header.scrolled {
+    background: rgba(28,26,24,0.92); backdrop-filter: blur(8px); padding:12px 20px;
+}
+.logo { display:flex; align-items:center; gap:8px; color:var(--text-light); font-weight:700; font-size:1.3rem; }
+.logo svg { width:26px; height:26px; flex-shrink:0; }
+.logo .word-gold { color: var(--gold-accent); }
 .menu-btn { background:none; border:none; color:var(--text-light); font-size:28px; cursor:pointer; }
 
 /* --- MENÚ LATERAL --- */
