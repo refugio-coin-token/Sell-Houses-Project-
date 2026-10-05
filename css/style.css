@@ -1,5 +1,6 @@
 /* -- VARIABLES DE COLOR -- */
 :root {
+    color-scheme: light;
     --bg-cream: #F5F3EB;
     --dark-charcoal: #1C1A18;
     --charcoal-soft: #2A2621;
