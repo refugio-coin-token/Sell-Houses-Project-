@@ -1,3 +1,26 @@
+// Función para pasar las imágenes de cada propiedad manualmente
+function movePropertySlide(button, direction, event) {
+    if (event) event.stopPropagation(); // Evita abrir la propiedad al hacer clic en las flechas
+
+    const card = button.closest('.property-card');
+    const slidesContainer = card.querySelector('.property-slides');
+    const totalSlides = slidesContainer.children.length;
+
+    if (totalSlides <= 1) return;
+
+    let currentIndex = parseInt(card.getAttribute('data-current-slide') || '0', 10);
+    currentIndex += direction;
+
+    if (currentIndex < 0) {
+        currentIndex = totalSlides - 1; // Vuelve a la última foto
+    } else if (currentIndex >= totalSlides) {
+        currentIndex = 0; // Vuelve a la primera foto
+    }
+
+    card.setAttribute('data-current-slide', currentIndex);
+    slidesContainer.style.transform = `translateX(-${currentIndex * 100}%)`;
+}
+
 async function loadCatalog(filters = {}) {
     const grid = document.getElementById('propertiesGrid');
     if (!grid) return;
@@ -27,12 +50,22 @@ async function loadCatalog(filters = {}) {
 
     grid.innerHTML = data.map(p => {
         const images = (p.property_images || []).sort((a, b) => a.position - b.position);
-        const mainImage = images[0]?.url || 'https://placehold.co/600x400?text=Sin+foto';
+        const imageUrls = images.length > 0 ? images.map(img => img.url) : ['https://placehold.co/600x400?text=Sin+foto'];
+
+        const slidesHtml = imageUrls.map(url => `<img src="${url}" alt="${p.title}">`).join('');
+        const arrowsHtml = imageUrls.length > 1 ? `
+            <button class="card-arrow prev" onclick="movePropertySlide(this, -1, event)" aria-label="Anterior">‹</button>
+            <button class="card-arrow next" onclick="movePropertySlide(this, 1, event)" aria-label="Siguiente">›</button>
+        ` : '';
+
         return `
-        <article class="property-card" onclick="window.location.href='propiedad.html?id=${p.id}'" style="cursor:pointer;">
+        <article class="property-card" data-current-slide="0" onclick="window.location.href='propiedad.html?id=${p.id}'" style="cursor:pointer;">
             <div class="property-img">
                 <span class="badge">${p.operation === 'venta' ? 'En Venta' : 'En Renta'}</span>
-                <img src="${mainImage}" alt="${p.title}">
+                <div class="property-slides">
+                    ${slidesHtml}
+                </div>
+                ${arrowsHtml}
             </div>
             <div class="property-info">
                 <div class="price">$${Number(p.price).toLocaleString('es-MX')} <span>MXN</span></div>
@@ -48,12 +81,13 @@ async function loadCatalog(filters = {}) {
     }).join('');
 }
 
-    document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
     const params = new URLSearchParams(window.location.search);
     const operationFromUrl = params.get('operacion');
 
     if (operationFromUrl) {
-        document.getElementById('filterOperation').value = operationFromUrl;
+        const filterOp = document.getElementById('filterOperation');
+        if (filterOp) filterOp.value = operationFromUrl;
         loadCatalog({ operation: operationFromUrl });
     } else {
         loadCatalog();
