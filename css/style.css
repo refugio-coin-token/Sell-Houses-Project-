@@ -214,3 +214,56 @@ footer { background-color:var(--dark-charcoal); color:var(--text-light); padding
 .btn-login { margin-top:10px; }
 .login-message { margin-top:20px; padding:10px; border-radius:8px; text-align:center; font-size:0.9rem; }
 .error-msg { background-color:rgba(255,0,0,0.1); color:#ff6b6b; border:1px solid #ff6b6b; }
+/* --- CARRUSEL MANUAL DE TARJETAS --- */
+.property-img {
+    position: relative;
+    height: 240px;
+    overflow: hidden;
+}
+
+.property-slides {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.35s ease-in-out;
+}
+
+.property-slides img {
+    min-width: 100%;
+    height: 100%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.card-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(28, 26, 24, 0.75);
+    color: var(--text-light);
+    border: 1px solid rgba(199, 154, 59, 0.5);
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.25s ease, background 0.2s, color 0.2s;
+    z-index: 10;
+}
+
+.property-card:hover .card-arrow {
+    opacity: 1;
+}
+
+.card-arrow:hover {
+    background: var(--gold-accent);
+    color: var(--dark-charcoal);
+}
+
+.card-arrow.prev { left: 10px; }
+.card-arrow.next { right: 10px; }
+
