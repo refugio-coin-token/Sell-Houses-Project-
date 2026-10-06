@@ -167,11 +167,25 @@ footer { background-color:var(--dark-charcoal); color:var(--text-light); padding
 .copyright { text-align:center; color:var(--text-gray); font-size:0.8rem; border-top:1px solid rgba(255,255,255,0.1); padding-top:22px; }
 
 @media (min-width:768px) {
+    /* Tus reglas existentes */
     .search-box { display:flex; flex-wrap:wrap; gap:16px; align-items:flex-end; bottom:-50px; max-width:920px; }
     .search-field { margin-bottom:0; flex:1; min-width:150px; }
     .btn-search { flex:1; min-width:150px; }
     .stats-bar { padding-top:120px; }
+
+    /* NUEVAS REGLAS PARA ESCRITORIO */
+    .hero h1 {
+        font-size: 4.8rem; /* Sube de 3rem a 4.8rem (ajusta a tu gusto) */
+        line-height: 1.1;
+        max-width: 900px; /* Expande el ancho máximo para evitar cortes extraños */
+    }
+    
+    .hero p {
+        font-size: 1.25rem; /* Crece el subtítulo ligeramente para balancear visualmente */
+        max-width: 600px;
+    }
 }
+
 
 /* --- LOGIN --- */
 .login-body {
